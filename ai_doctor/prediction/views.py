@@ -1,3 +1,5 @@
+import profile
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Prediction
@@ -17,8 +19,14 @@ from reportlab.platypus import (
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+import google.generativeai as genai
+
 genai.configure(
-    api_key="AIzaSyCNLrBtIvtq54N8NUnnK0ewF2JxnIOWlR0"
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 gemini_model = genai.GenerativeModel(
@@ -144,6 +152,8 @@ def download_report(request, prediction_id):
         "gender": "Not Specified"
     }
 )
+    profile.reports_downloaded += 1
+    profile.save()
 
     response = HttpResponse(
         content_type="application/pdf"
