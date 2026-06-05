@@ -1,0 +1,9 @@
+fever,cough,headache,body_pain,fatigue,joint_pain,thirst,frequent_urination,disease
+1,1,1,0,0,0,0,0,Common_Flu
+1,1,0,0,0,0,0,0,Common_Cold
+1,0,1,1,1,1,0,0,Dengue
+0,0,0,0,1,0,1,1,Diabetes
+1,0,1,0,1,0,0,0,Malaria
+0,1,0,0,0,0,0,0,Allergy
+1,1,1,1,1,0,0,0,COVID19
+0,0,0,1,1,1,0,0,Arthritis

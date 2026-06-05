@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Doctor Register</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+-webkit-box-shadow:0 0 0 1000px rgba(255,255,255,0.08) inset !important;
+-webkit-text-fill-color:white !important;
+transition:background-color 5000s ease-in-out 0s;
+}
+
+</style>
+
+</head>
+
+<body class="bg-[#050816] overflow-x-hidden min-h-screen">
+    <nav class="relative z-50 px-6 py-5">
+
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+        <a href="/"
+        class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500">
+
+            AI Doctor
+
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+
+            <a href="/"
+            class="text-gray-300 hover:text-cyan-400 transition">
+
+                Home
+
+            </a>
+
+            <a href="/predict/"
+            class="text-gray-300 hover:text-cyan-400 transition">
+
+                Prediction
+
+            </a>
+
+            <a href="/chatbot/"
+            class="text-gray-300 hover:text-cyan-400 transition">
+
+                AI Assistant
+
+            </a>
+
+            <a href="/login/"
+            class="text-gray-300 hover:text-cyan-400 transition">
+
+                Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- Background Glow -->
+
+<div class="absolute inset-0 overflow-hidden">
+
+    <div class="absolute top-0 left-0 w-[450px] h-[450px]
+    bg-cyan-500 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+    <div class="absolute bottom-0 right-0 w-[450px] h-[450px]
+    bg-blue-600 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+    <div class="absolute top-1/2 left-1/2 w-[350px] h-[350px]
+    bg-pink-500 opacity-20 rounded-full blur-3xl animate-ping"></div>
+
+</div>
+
+<div class="relative z-10 min-h-screen flex items-center justify-center px-6 pt-8 pb-20">
+
+<div class="max-w-7xl w-full grid lg:grid-cols-2 gap-10 items-center">
+
+<!-- Left Side -->
+
+<div class="hidden lg:block">
+
+    <h1 class="text-6xl font-extrabold text-white leading-tight">
+
+        Join The Future Of
+
+        <span
+        class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500">
+
+            AI Healthcare
+
+        </span>
+
+    </h1>
+
+    <p class="text-gray-400 mt-8 text-xl leading-relaxed">
+
+        Create your account and access intelligent disease prediction,
+        health reports, AI medical assistance and smart healthcare analytics.
+
+    </p>
+
+    <!-- Feature Cards -->
+
+    <div class="grid grid-cols-2 gap-5 mt-10">
+
+        <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+            <h3 class="text-cyan-400 font-bold text-xl">
+                41+
+            </h3>
+
+            <p class="text-gray-300">
+                Diseases Covered
+            </p>
+
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+            <h3 class="text-pink-400 font-bold text-xl">
+                24/7
+            </h3>
+
+            <p class="text-gray-300">
+                AI Assistance
+            </p>
+
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+            <h3 class="text-blue-400 font-bold text-xl">
+                95%
+            </h3>
+
+            <p class="text-gray-300">
+                Accuracy
+            </p>
+
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+            <h3 class="text-purple-400 font-bold text-xl">
+                5000+
+            </h3>
+
+            <p class="text-gray-300">
+                Users
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Register Card -->
+
+<div
+class="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[35px] p-8 md:p-10 shadow-2xl">
+
+    <div class="text-center">
+
+        <h1
+        class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500">
+
+            AI Doctor
+
+        </h1>
+
+        <p class="text-gray-400 mt-3">
+
+            Create Your Account
+
+        </p>
+
+    </div>
+
+    <form method="POST" action="/register/" class="mt-8 space-y-4">
+    {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mb-4 bg-red-500/20 border border-red-500 text-red-300 p-3 rounded-xl">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+        <input
+        type="text"
+        name="full_name"
+        placeholder="Full Name"
+        required
+        class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-400">
+
+        <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none focus:border-blue-400">
+
+        <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        required
+        class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none focus:border-pink-400">
+
+        <div class="grid md:grid-cols-2 gap-4">
+
+            <input
+type="number"
+name="age"
+placeholder="Age"
+required
+class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none">
+
+            <select
+name="gender"
+required
+class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none">
+
+    <option value="" class="text-black">
+        Select Gender
+    </option>
+
+    <option value="Male" class="text-black">
+        Male
+    </option>
+
+    <option value="Female" class="text-black">
+        Female
+    </option>
+
+    <option value="Other" class="text-black">
+        Other
+    </option>
+
+</select>
+
+        </div>
+
+        <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none">
+
+        <input
+        type="password"
+        name="confirm_password"
+        placeholder="Confirm Password"
+        class="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-white outline-none">
+
+        <label class="flex items-center gap-2 text-gray-400">
+
+            <input type="checkbox">
+
+            I agree to the Terms & Conditions
+
+        </label>
+
+        <button
+        class="w-full py-4 rounded-2xl font-bold text-white
+        bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500
+        hover:scale-105 transition duration-500 shadow-xl">
+
+            Create Account
+
+        </button>
+
+    </form>
+
+    <p class="text-center text-gray-400 mt-8">
+
+        Already have an account?
+
+        <a href="/login"
+        class="text-cyan-400 font-semibold">
+
+            Login
+
+        </a>
+
+    </p>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

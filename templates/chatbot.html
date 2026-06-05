@@ -1,0 +1,269 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Doctor Assistant</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<script>
+
+function startListening() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        return;
+    }
+
+    const recognition =
+        new SpeechRecognition();
+
+    const micButton =
+        document.getElementById("mic-btn");
+
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    // Listening State
+    recognition.onstart = function() {
+
+        micButton.classList.add(
+            "animate-pulse",
+            "bg-red-500"
+        );
+
+    };
+
+    // Speech Captured
+    recognition.onresult = function(event) {
+
+        document.getElementById(
+            "user-message"
+        ).value =
+        event.results[0][0].transcript;
+
+    };
+
+    // Stop Listening
+    recognition.onend = function() {
+
+        micButton.classList.remove(
+            "animate-pulse",
+            "bg-red-500"
+        );
+
+    };
+    document.getElementById(
+    "mic-status"
+).innerText = "";
+
+}
+
+</script>
+
+<body class="bg-[#050816] overflow-hidden">
+
+<!-- Background Glow -->
+
+<div class="fixed inset-0 -z-10">
+
+    <div class="absolute top-0 left-0 w-[450px] h-[450px]
+    bg-cyan-500 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+    <div class="absolute bottom-0 right-0 w-[450px] h-[450px]
+    bg-blue-600 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+    <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px]
+    bg-pink-500 opacity-20 rounded-full blur-3xl animate-ping"></div>
+
+</div>
+
+<div class="h-screen flex flex-col">
+
+    <!-- Header -->
+
+    <div
+    class="bg-white/10 backdrop-blur-2xl border-b border-white/10 p-5">
+
+        <div class="flex items-center justify-between">
+
+            <div class="flex items-center gap-4">
+
+                <img
+                src="https://cdn-icons-png.flaticon.com/512/2785/2785482.png"
+                class="w-12 h-12 rounded-full">
+
+                <h2
+                class="text-white text-xl font-bold">
+
+                    AI Doctor Assistant
+
+                </h2>
+
+            </div>
+
+            <a href="/dashboard"
+            class="px-5 py-2 rounded-xl bg-white/10 border border-white/10 text-white">
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Chat Area -->
+
+    <div
+id="chat-container"
+class="flex-1 overflow-y-auto px-6 py-6">
+
+{% if chats %}
+
+<div class="max-w-5xl mx-auto space-y-5">
+
+    {% for chat in chats %}
+
+    <div class="flex justify-end">
+        <div class="bg-cyan-500 text-white p-4 rounded-2xl max-w-xl">
+            {{ chat.message }}
+        </div>
+    </div>
+
+    <div class="flex justify-start">
+        <div class="bg-white/10 backdrop-blur-xl text-white p-4 rounded-2xl max-w-xl">
+            {{ chat.response|linebreaks }}
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<!-- KEEP YOUR EXISTING LOGO SECTION HERE -->
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/2785/2785482.png"
+class="w-40 drop-shadow-[0_0_25px_rgba(34,211,238,0.7)]">
+
+<h1
+class="text-white text-5xl font-bold mt-8">
+
+    AI Doctor Assistant
+
+</h1>
+
+<p
+class="text-gray-400 text-center max-w-2xl mt-5 text-lg">
+
+    Ask health related questions, describe symptoms,
+    receive medical guidance, disease information,
+    precautions and healthcare recommendations.
+
+</p>
+
+<div
+class="mt-10 flex flex-wrap justify-center gap-4">
+
+    <button
+    class="bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl">
+
+        Fever & Headache
+
+    </button>
+
+    <button
+    class="bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl">
+
+        Stomach Pain
+
+    </button>
+
+    <button
+    class="bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl">
+
+        Dengue Symptoms
+
+    </button>
+
+    <button
+    class="bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl">
+
+        Health Tips
+
+    </button>
+
+</div>
+
+{% endif %}
+
+</div>
+
+    <!-- Input Area -->
+
+    <div
+    class="bg-white/10 backdrop-blur-2xl border-t border-white/10 p-5">
+
+        <form method="POST" class="flex gap-4">
+
+    {% csrf_token %}
+
+   <input
+id="user-message"
+name="message"
+type="text"
+placeholder="Ask AI Doctor anything..."
+class="flex-1 bg-white/10 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none">
+
+<p
+id="mic-status"
+class="text-sm text-cyan-400 mt-2">
+</p>
+
+<button
+id="mic-btn"
+type="button"
+onclick="startListening()"
+class="w-12 h-12 rounded-full
+bg-gradient-to-r from-cyan-500 to-pink-500
+text-white flex items-center justify-center
+hover:scale-110 transition">
+
+    <i class="fa-solid fa-microphone"></i>
+
+</button>
+    <button
+    type="submit"
+    class="px-8 py-4 rounded-2xl font-bold text-white
+    bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500
+    hover:scale-105 transition duration-500">
+
+        Send
+
+    </button>
+
+</form>
+    </div>
+
+</div>
+
+</body>
+
+</html>
+```

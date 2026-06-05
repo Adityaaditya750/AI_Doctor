@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Doctor - Disease Prediction</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<script>
+
+function startListening(){
+
+    const recognition =
+    new webkitSpeechRecognition();
+
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    recognition.onresult = function(event){
+
+        document.getElementById(
+            "symptoms"
+        ).value =
+        event.results[0][0].transcript;
+    };
+}
+
+</script>
+
+<body class="bg-[#050816] overflow-x-hidden">
+
+<!-- Background Glow -->
+
+<div class="fixed inset-0 -z-10">
+
+```
+<div class="absolute top-0 left-0 w-[450px] h-[450px]
+bg-cyan-500 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+<div class="absolute bottom-0 right-0 w-[450px] h-[450px]
+bg-blue-600 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+
+<div class="absolute top-1/2 left-1/2 w-[300px] h-[300px]
+bg-pink-500 opacity-20 rounded-full blur-3xl animate-ping"></div>
+```
+
+</div>
+
+<div class="flex min-h-screen">
+
+```
+<!-- Sidebar -->
+
+<aside
+class="hidden lg:flex flex-col w-72 bg-white/10 backdrop-blur-2xl border-r border-white/10 p-6">
+
+    <h1
+    class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500">
+
+        AI Doctor
+
+    </h1>
+
+    <nav class="mt-12 space-y-3">
+
+        <a href="/dashboard/"
+        class="block p-4 rounded-xl text-gray-300 hover:bg-white/10">
+            🏠 Dashboard
+        </a>
+
+        <a href="/predict/"
+        class="block p-4 rounded-xl bg-white/10 text-white">
+            🩺 Predict Disease
+        </a>
+
+        <a href="/chatbot/"
+        class="block p-4 rounded-xl text-gray-300 hover:bg-white/10">
+            🤖 AI Assistant
+        </a>
+
+        <a href="/logout/"
+        class="block p-4 rounded-xl text-gray-300 hover:bg-white/10">
+            🚪 Logout
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="flex-1 p-6 md:p-10">
+
+    <div>
+
+        <h2 class="text-4xl font-bold text-white">
+
+            Disease Prediction
+
+        </h2>
+
+        <p class="text-gray-400 mt-2">
+
+            Enter your symptoms and let AI analyze them.
+
+        </p>
+
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 mt-10">
+
+        <!-- Input Card -->
+
+        <div
+        class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+
+            <h3 class="text-2xl font-bold text-white mb-6">
+
+                Enter Symptoms
+
+            </h3>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <textarea
+                name="symptoms"
+                rows="8"
+                placeholder=" how are you feeling? Any specific symptoms? Be as detailed as possible."
+                class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-white placeholder-gray-400 outline-none resize-none"></textarea>
+
+                <button
+                type="submit"
+                class="w-full mt-6 py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 hover:scale-105 transition duration-500">
+
+                    Predict Disease
+
+                </button>
+                <!-- <button
+type="button"
+onclick="startListening()"
+class="px-4 py-2 rounded-xl bg-pink-500 text-white">
+
+🎤 Speak Symptoms
+
+</button> -->
+
+            </form>
+
+        </div>
+
+        <!-- Result Card -->
+
+        <div
+        class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8 flex flex-col justify-center">
+{% if prediction %}
+
+<div class="text-white">
+
+    <h2 class="text-3xl font-bold text-cyan-400 mb-4">
+        {{ prediction }}
+    </h2>
+
+    <p class="mb-4">
+        Confidence: {{ confidence }}%
+    </p>
+
+    <div
+class="bg-white/10 rounded-xl p-5 text-gray-200 whitespace-pre-line">
+
+    {{ ai_report }}
+
+    <a
+    href="{% url 'download_report' prediction_id %}"
+    class="inline-block mt-6 px-6 py-3 rounded-xl
+    bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500
+    text-white font-bold">
+
+        Download Report
+
+    </a>
+
+</div>
+
+</div>
+
+{% else %}
+
+<div class="text-center">
+
+    <img
+    src="https://cdn-icons-png.flaticon.com/512/4320/4320337.png"
+    class="w-40 mx-auto">
+
+    <h3 class="text-white text-2xl font-bold mt-6">
+        No Prediction Yet
+    </h3>
+
+    <p class="text-gray-400 mt-3">
+        Enter symptoms and click Predict Disease.
+    </p>
+
+</div>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+</main>
+```
+
+</div>
+
+</body>
+</html>
